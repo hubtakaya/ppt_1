@@ -1,0 +1,5 @@
+▼プッシュするまでの流れ
+・git add -A
+・git commit -m "レポジトリ名"
+・git push
+

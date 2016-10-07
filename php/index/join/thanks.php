@@ -20,7 +20,6 @@
 <div id="other_nav">
 	<div id="nav_msg">
 	<ul>
-		<li><a href="#"><div id="icon_pro"></div></a></li>
 		<li><a href="signIn.php">■ログイン</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="index.html">■ホームに戻る</a></li>
@@ -29,30 +28,13 @@
 </div>
 
 <div id="header_myPage">
-	<h2>Sign In</h2>
+	<h2>Sign UP</h2>
 </div>
 </header>
 
 <main>
-<div id="form">
-	<h3>ID・パスワードの入力</h3>
-
-<form action="" type="post">
-<table>
-<tbody>
-	<tr>
-		<th>User ID</th>
-		<td><input name="ID" type="text"></td>
-	</tr>
-	<tr>
-		<th>Password</th>
-		<td><input name="password" type="password"></td>
-	</tr>
-</tbody>
-</table>
-	<p><input type="submit" value="Sign In" id="formbtn"></p>
-</form><!-- #signin -->
-</div><!-- #form -->
+	<h3>ユーザー登録が完了しました。</h3>
+	<p><a id="signInbtn" href="../signIn.php">Sign In</a></p>
 </main>
 
 <footer>

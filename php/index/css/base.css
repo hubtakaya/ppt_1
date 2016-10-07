@@ -409,7 +409,7 @@ div.button {
 	top: 2px;
 }
 
-/*myPage
+/* myPage
 --------------------*/
 h3 {
 	text-align: center;
@@ -498,7 +498,25 @@ table + p {
 	transition: 0.3s;
 }
 
-#formbtn:hover {
+#signInbtn {
+	margin: 40px auto 40px;
+	display: block;
+	width: 130px;
+	height: 40px;
+	font-size: 18px;
+	line-height: 2.0;
+	/* 文字がずれるので、2.0 */
+	background: #e59e33;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	cursor: pointer;
+	-webkit-transition: 0.3s;
+	transition: 0.3s;
+}
+
+#formbtn:hover,
+#signInbtn:hover {
 	opacity: 0.5;
 }
 
@@ -617,7 +635,19 @@ div#footer_bottom {
 	}
 }
 
-/* myPage */
+
+/*
+=======================================
+	SESSION MYPAGE
+=======================================
+
+/*signIn*/
+p.error {
+	text-align: center;
+	color: red;
+}
+
+/* footer_nav */
 div#footer_nav {
 	width: 100%;
 	background: #70996a;

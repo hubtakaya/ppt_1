@@ -1,3 +1,19 @@
+<?php
+session_start();
+require_once __DIR__ . '/../pdo_connect.php';
+
+// ブランクの確認
+
+// 重複の確認
+
+// 書き直しオプション
+
+
+if (empty($error)) {
+	$_SESSION['join'] = $_POST;
+	header('Location: check.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -20,7 +36,6 @@
 <div id="other_nav">
 	<div id="nav_msg">
 	<ul>
-		<li><a href="#"><div id="icon_pro"></div></a></li>
 		<li><a href="signIn.php">■ログイン</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="index.html">■ホームに戻る</a></li>
@@ -41,18 +56,26 @@
 <table>
 <tbody>
 	<tr>
-		<th>User ID</th>
-		<td><input name="ID" type="text"></td>
+		<th>User Name</th>
+		<td><input name="username" type="text"></td>
+	</tr>
+	<tr>
+	<tr>
+		<th>mail</th>
+		<td><input name="mail" type="text"></td>
 	</tr>
 	<tr>
 		<th>Password</th>
 		<td><input name="password" type="password"></td>
 	</tr>
+	<tr>
+		<th>New Password （確認）</th>
+		<td><input name="password" type="password"></td>
+	</tr>
 </tbody>
 </table>
-	<p><input type="submit" value="Sign In" id="formbtn"></p>
-</form><!-- #signin -->
-</div><!-- #form -->
+	<p><input type="submit" value="Sign Up" id="formbtn"></p>
+</form>
 </main>
 
 <footer>

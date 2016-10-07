@@ -35,7 +35,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 	<?php if ($_SESSION['auth'] == 'true'): ?>
 		<li><a href="myPage.php"><div id="icon_pro"></div></a></li>
 	<?php endif; ?>
-		<li><a href="signIn.html">■ログイン</a></li>
+		<li><a href="signIn.php">■ログイン</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="#">■ホームに戻る</a></li>
 	</ul>

@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once __DIR__ . '/../pdo_connect.php';
+
+if (!isset($_SESSION['join'])) {
+	header('Location: signUp.php');
+	exit();
+}
+
+// join の二重配列を処理していく。
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -20,7 +32,6 @@
 <div id="other_nav">
 	<div id="nav_msg">
 	<ul>
-		<li><a href="#"><div id="icon_pro"></div></a></li>
 		<li><a href="signIn.php">■ログイン</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="index.html">■ホームに戻る</a></li>
