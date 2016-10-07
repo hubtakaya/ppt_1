@@ -35,7 +35,7 @@ if (isset($_SESSION['auth'])) {
 	<?php if ($_SESSION['auth'] == 'true'): ?>
 		<li><a href="myPage.php"><div id="icon_pro"></div></a></li>
 	<?php endif; ?>
-		<li><a href="signIn.php">■ログイン</a></li>
+		<li><a href="signOut.php">■ログアウトする</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="topPage.php">■ホームに戻る</a></li>
 	</ul>

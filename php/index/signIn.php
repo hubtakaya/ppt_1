@@ -3,9 +3,8 @@ session_start();
 require_once __DIR__ . '/pdo_connect.php';
 
 // エラーレベルの設定
-// error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL ^ E_NOTICE);
 
-$_SESSION['auth'] = 'false';
 
 
 // if (!empty($_POST)) {
@@ -41,6 +40,7 @@ if (!empty($_POST)) {
 		// fetchAll--> 連想配列を取得する。
 		print_r ($result);
 		if (!empty($result['username'])) {
+			session_regenerate_id(true);
 			$_SESSION['auth'] = 'true';
 			$_SESSION['username'] = $result['username'];
 			header('Location: myPage.php');

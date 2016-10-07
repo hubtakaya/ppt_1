@@ -8,7 +8,7 @@ if (isset($_SESSION['auth'])) {
 		$_SESSION['auth'] == 'false';
 	}
 }
-
+error_reporting(E_ALL ^ E_NOTICE);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
