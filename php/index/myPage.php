@@ -1,12 +1,11 @@
 <?php
 session_start();
 
-if (isset($_SESSION['auth'])) {
-	if ($_SESSION['auth'] == 'true') {
-		$_SESSION['auth'] == 'true';
-	} else {
-		$_SESSION['auth'] == 'false';
-	}
+// サインインチェック
+if (!($_SESSION['auth']) == 'true') {
+	// サインインしていない
+	header('Location: signIn.php');
+	exit();
 }
 
 ?>

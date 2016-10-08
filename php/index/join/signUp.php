@@ -3,8 +3,36 @@ session_start();
 require_once __DIR__ . '/../pdo_connect.php';
 
 // ブランクの確認
+if (!empty($_POST)) {
+	if (empty($_POST['username'])) {
+		$error['username'] = 'blank';
+	}
 
-// 重複の確認
+	if (empty($_POST['mail'])) {
+		$error['mail'] = 'blank';
+	}
+
+	if (empty($_POST['password1']) || empty($_POST['password2'])) {
+		$error['password'] = 'blank';
+	}
+
+	if ($_POST['password1'] !== $_POST['password2']) {
+		$error['password'] = 'diff';
+	}
+}
+
+// 重複アカウントのチェック
+
+	// if (empty($error)){
+	// 	$sql = sprintf('SELECT COUNT(*) AS cnt FROM members WHERE email="%s"',
+	// 	mysql_real_escape_string($_POST['email'])
+	// 	);
+	// 	$record = mysql_query($sql) or die(mysql_error());
+	// 	$table = mysql_fetch_assoc($record);
+	// 	if ($table['cnt'] > 0){
+	// 		$error['email'] = 'duplicate';
+	// 	}
+	// }
 
 // 書き直しオプション
 
@@ -66,11 +94,11 @@ if (empty($error)) {
 	</tr>
 	<tr>
 		<th>Password</th>
-		<td><input name="password" type="password"></td>
+		<td><input name="password1" type="password"></td>
 	</tr>
 	<tr>
 		<th>New Password （確認）</th>
-		<td><input name="password" type="password"></td>
+		<td><input name="password2" type="password"></td>
 	</tr>
 </tbody>
 </table>
