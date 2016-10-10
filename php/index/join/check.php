@@ -9,6 +9,8 @@ if (!isset($_SESSION['join'])) {
 
 // join の二重配列を処理していく。
 
+// 登録ボタンの横に「書き直し」ボタンを設置する。
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">

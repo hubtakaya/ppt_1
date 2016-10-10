@@ -1,27 +1,41 @@
 <?php
-session_start();
 require_once __DIR__ . '/../pdo_connect.php';
+
+// エラーレベルの設定
+error_reporting(E_ALL ^ E_NOTICE);
 
 // ブランクの確認
 if (!empty($_POST)) {
-	if (empty($_POST['username'])) {
+	if ($_POST['username'] == '') {
 		$error['username'] = 'blank';
 	}
 
-	if (empty($_POST['mail'])) {
+	if ($_POST['mail'] == '') {
 		$error['mail'] = 'blank';
 	}
 
-	if (empty($_POST['password1']) || empty($_POST['password2'])) {
+	if ($_POST['password1'] == '' || ($_POST['password2']) == '') {
 		$error['password'] = 'blank';
+	}
+
+	if (strlen($_POST['password1']) < 4) {
+		$error['password'] = 'length';
 	}
 
 	if ($_POST['password1'] !== $_POST['password2']) {
 		$error['password'] = 'diff';
 	}
-}
 
-// 重複アカウントのチェック
+// 重複アカウントのチェック: レシピ->677
+	$sql = ('SELECT COUNT(*) AS cnt FROM users WHERE mail= :mail OR username= :username');
+	$prepare = $db->prepare($sql);
+	$prepare->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
+	$prepare->bindValue(':username', $_POST['username'], PDO::PARAM_STR);
+	$prepare->execute();
+	$result  = $prepare->fetchColumn();
+	if ($result > 0) {
+		$error['username'] = 'duplicate';
+	}
 
 	// if (empty($error)){
 	// 	$sql = sprintf('SELECT COUNT(*) AS cnt FROM members WHERE email="%s"',
@@ -37,9 +51,11 @@ if (!empty($_POST)) {
 // 書き直しオプション
 
 
-if (empty($error)) {
-	$_SESSION['join'] = $_POST;
-	header('Location: check.php');
+	// if (empty($error)) {
+	// 	$_SESSION['join'] = $_POST;
+	// 	header('Location: check.php');
+	// 	exit();
+	// }
 }
 ?>
 <!DOCTYPE html>
@@ -80,7 +96,7 @@ if (empty($error)) {
 <div id="form">
 	<h3>ID・パスワードの入力</h3>
 
-<form action="" type="post">
+<form action="signUp.php" method="post" enctype="multipart/form-data">
 <table>
 <tbody>
 	<tr>
@@ -104,6 +120,27 @@ if (empty($error)) {
 </table>
 	<p><input type="submit" value="Sign Up" id="formbtn"></p>
 </form>
+
+	<?php if($error['username'] == 'blank'): ?>
+		<p class="error">* ユーザー名を入力してください。</p>
+	<?php endif; ?>
+	<?php if ($error['mail'] == 'blank'): ?>
+		<p class="error">* メールアドレスを入力してください。</p>
+	<?php endif; ?>
+	<?php if ($error['password'] == 'blank'): ?>
+		<p class="error">* パスワードを入力してください。</p>
+	<?php endif; ?>
+
+	<?php if ($error['password'] == 'length'): ?>
+		<p class="error">* パスワードは4文字以上設定してください。</p>
+	<?php endif; ?>
+	<?php if ($error['password'] == 'diff'): ?>
+		<p class="error">* 入力されたパスワードが違います。</p>
+	<?php endif; ?>
+
+	<?php if ($error['username'] == 'duplicate'): ?>
+		<p class="error">* メールアドレスもしくは、ユーザー名は既に登録されています。</p>
+	<?php endif; ?>
 </main>
 
 <footer>

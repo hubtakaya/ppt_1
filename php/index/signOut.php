@@ -3,7 +3,7 @@ session_start ();
 $_SESSION = array();
 session_destroy();
 // cookie に関する記述を追加。
-header('Location: topPage.php')
+header('Location: topPage.php');
 
 ?>
 
