@@ -2,14 +2,55 @@
 session_start();
 require_once __DIR__ . '/../pdo_connect.php';
 
-if (!isset($_SESSION['join'])) {
-	header('Location: signUp.php');
-	exit();
-}
+// if (!isset($_SESSION['join'])) {
+// 	header('Location: signUp.php');
+// 	exit();
+// }
 
 // join の二重配列を処理していく。
+if (!empty($_POST)) {
+
+	// 画像がアップされているか確認
+	if (!isset($_SESSION['join']['image'])){
+		$sql = ('INSERT INTO users SET username= :username, mail= :mail,
+			password= :password, picture= :picture, created= :created'
+		);
+	} else {
+		$sql = ('INSERT INTO users SET username= :username, mail= :mail,
+			password= :password, created= :created'
+		);
+	}
+	$prepare = $db->prepare($sql);
+	$prepare->bindValue(':username', $_SESSION['join']['username'], PDO::PARAM_STR);
+	$prepare->bindValue(':mail', $_SESSION['join']['mail'], PDO::PARAM_STR);
+	$prepare->bindValue(':password', _password($_SESSION['join']['password']), PDO::PARAM_STR);
+	// 文字列を渡す。PDOException が出るおそれアリ。
+	$prepare->bindValue(':picture', $_SESSION['join']['picture'], PDO::PARAM_STR);
+	$prepare->bindValue(':created', date('Y-m-d H:i:s'), PDO::PARAM_STR	);
+	$prepare->execute();
+}
+
 
 // 登録ボタンの横に「書き直し」ボタンを設置する。
+
+
+// if (!empty($_POST)){
+// 	// 登録処理をする
+// 	$sql = sprintf('INSERT INTO members SET name="%s", email="%s",
+// 	password="%s", picture="%s", created="%s"',
+// 	mysql_real_escape_string($_SESSION['join']['name']),
+// 	mysql_real_escape_string($_SESSION['join']['email']),
+// 	mysql_real_escape_string(sha1($_SESSION['join']['password'])),
+// 	mysql_real_escape_string($_SESSION['join']['image']),
+// 	date('Y-m-d H:i:s')
+// 	);
+// 	mysql_query($sql) or die(mysql_error());
+// 	unset($_SESSION['join']);
+
+// 	header('Location: thanks.php');
+// 	exit;
+// }
+
 
 ?>
 <!DOCTYPE html>
@@ -54,16 +95,24 @@ if (!isset($_SESSION['join'])) {
 <table>
 <tbody>
 	<tr>
-		<th>User ID</th>
-		<td><input name="ID" type="text"></td>
+		<th>username</th>
+		<td><?php echo htmlspecialchars($_SESSION['join']['username'], ENT_QUOTES, 'UTF-8'); ?></td>
+	</tr>
+	<tr>
+		<th>mail</th>
+		<td><?php echo htmlspecialchars($_SESSION['join']['mail'], ENT_QUOTES, 'UTF-8'); ?></td>
 	</tr>
 	<tr>
 		<th>Password</th>
-		<td><input name="password" type="password"></td>
+		<td>表示されません</td>
 	</tr>
 </tbody>
 </table>
-	<p><input type="submit" value="Sign In" id="formbtn"></p>
+	<div id="table_btn">
+		<div id="subtn"><input type="submit" value="Sign UP" id="formbtn"></div>
+		<div id="bkbtn"><a id="backbtn" href="index.php?action=rewrite">Back</a></div>
+	</div>
+
 </form><!-- #signin -->
 </div><!-- #form -->
 </main>

@@ -417,13 +417,18 @@ h3 {
 	font-size: 24px;
 }
 
+
+table, tbody, tr, th, td {
+	display: block;
+}
+
 table {
 	width: 400px;
-	margin: 30px auto 0;
+	margin: 30px auto 30px;
 }
 
 tbody {
-	height: auto;
+/*	height: auto;*/
 	background-color: #dadada;
 	border: 1px solid #CCCCCC;
 }
@@ -441,8 +446,9 @@ th, td {
 	text-align: left;
 }
 
+
 td input {
-	width: 80%;
+	width: 98%;
 	padding: 3px 5px;
 	/*padding: 3px 0;*/
 	font-size: 14px;
@@ -452,18 +458,19 @@ td input {
 
 @media screen and (max-width: 480px){
 
-	table {
-		width: 90%;
+	table, tbody {
+		width: 100%;
 	}
 
 	tbody tr {
 		display: block;
-		width: 100%;
+		min-width: 100%;
 	}
 
 	th, td {
-		display: block;
-		width: 100%;
+		min-width: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
 	}
 
 	th {
@@ -476,6 +483,95 @@ td input {
 	}
 
 }
+
+@media screen and (min-width: 481px) {
+	th, td {
+		display: inline-block;
+		height: 65px;
+		overflow: hidden;
+	}
+	th {
+		width: 30%;
+		box-sizing: border-box;
+	}
+	td {
+		width: 65%;
+		box-sizing: border-box;
+	}
+}
+
+/*h3 {
+	text-align: center;
+	color: #544745;
+	font-size: 24px;
+}
+
+table {
+	width: 400px;
+	margin: 30px auto 0;
+	position: relative;
+}
+
+tbody {
+	height: auto;
+	background-color: #dadada;
+	border: 1px solid #CCCCCC;
+	position: relative;
+}
+
+th {
+	width: 30%;
+	background: rgb(170, 170, 170);
+	color: #fff;
+	position: relative;
+}
+
+th, td {
+	padding: 10px;
+	vertical-align: middle;
+	font-weight: normal;
+	text-align: left;
+	position: relative;
+}
+
+td input {
+	width: 80%;
+	padding: 3px 5px;
+	/*padding: 3px 0;*/
+	font-size: 14px;
+	background-color: #fff;
+	margin: 10px 0;
+}
+
+@media screen and (max-width: 480px){
+
+	table, tbody {
+		width: 280px;
+	}
+
+	tbody tr {
+		display: block;
+		min-width: 280px;
+	}
+
+	th, td {
+		display: block;
+		min-width: 280px;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	th {
+		padding: 0;
+		text-align: center;
+	}
+
+	td input {
+		width: 90%;
+	}
+
+}
+*/
 
 table + p {
 	margin: 30px 0 40px;
@@ -513,6 +609,37 @@ table + p {
 	cursor: pointer;
 	-webkit-transition: 0.3s;
 	transition: 0.3s;
+}
+
+#backbtn {
+	margin: 40px auto 40px;
+	display: block;
+	width: 130px;
+	height: 40px;
+	font-size: 18px;
+	line-height: 2.0;
+	/* 文字がずれるので、2.0 */
+	background: #cccccc;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	cursor: pointer;
+	-webkit-transition: 0.3s;
+	transition: 0.3s;
+}
+
+#table_btn {
+	margin: 0 auto;
+	display: block;
+	width: 280px;
+}
+
+#subtn, #bkbtn {
+	display: inline-block;
+}
+
+#subtn {
+	margin-right: 10px;
 }
 
 #formbtn:hover,

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../pdo_connect.php';
 
 // エラーレベルの設定
@@ -37,6 +38,21 @@ if (!empty($_POST)) {
 		$error['username'] = 'duplicate';
 	}
 
+	if (empty($error)){
+		$_SESSION['join'] = $_POST;
+
+		if (!empty($_FILES)) {
+			// 画像をアップロードする
+			$image = date('YmdHis') . $_FILES['image']['name'];
+			move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
+			$_SESSION['join']['image'] = $image;
+		}
+
+		header('Location: check.php');
+		exit();
+	}
+}
+
 	// if (empty($error)){
 	// 	$sql = sprintf('SELECT COUNT(*) AS cnt FROM members WHERE email="%s"',
 	// 	mysql_real_escape_string($_POST['email'])
@@ -49,15 +65,8 @@ if (!empty($_POST)) {
 	// }
 
 // 書き直しオプション
-
-
-	// if (empty($error)) {
-	// 	$_SESSION['join'] = $_POST;
-	// 	header('Location: check.php');
-	// 	exit();
-	// }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
