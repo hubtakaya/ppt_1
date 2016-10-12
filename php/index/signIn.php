@@ -5,47 +5,22 @@ require_once __DIR__ . '/pdo_connect.php';
 // エラーレベルの設定
 error_reporting(E_ALL ^ E_NOTICE);
 
-// // hash 有り still_dev
-// if (!empty($_POST)) {
-// 	if ($_POST['mail'] != '' && $_POST['password'] != '') {
-// 		$sql = 'SELECT * FROM users WHERE mail= :mail';
-// 		$prepare = $db->prepare($sql);
-// 		$prepare->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
-// 		$prepare->execute();
-// 		$result = $prepare->fetch(PDO::FETCH_ASSOC);
-// 		// fetch   --> 配列を一行だけ取得する。
-// 		// fetchAll--> 連想配列を取得する。
-// 		$hash = ($result['password']);
-// 		if (password_verify($_POST['password'], $hash) == true) {
-// 			session_regenerate_id(true);
-// 			$_SESSION['auth'] = 'true';
-// 			$_SESSION['username'] = $result['username'];
-// 			header('Location: myPage.php');
-// 		} else {
-// 			$error['login'] = 'failed';
-// 		}
-// 	} else {
-// 		$error['login'] = 'blank';
-// 	}
-// }
-
-// hash 無し complete_dev
+// hash 有り still_dev
 if (!empty($_POST)) {
 	if ($_POST['mail'] != '' && $_POST['password'] != '') {
-		$sql = 'SELECT * FROM users WHERE mail= :mail AND password= :password';
+		$sql = 'SELECT * FROM users WHERE mail= :mail';
 		$prepare = $db->prepare($sql);
 		$prepare->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
-		$prepare->bindValue(':password', $_POST['password'], PDO::PARAM_STR);
 		$prepare->execute();
 		$result = $prepare->fetch(PDO::FETCH_ASSOC);
 		// fetch   --> 配列を一行だけ取得する。
 		// fetchAll--> 連想配列を取得する。
-		print_r ($result);
-		if (!empty($result['username'])) {
+		$hash = ($result['password']);
+		if (password_verify($_POST['password'], $hash) == true) {
 			session_regenerate_id(true);
 			$_SESSION['auth'] = 'true';
 			$_SESSION['username'] = $result['username'];
-			header('Location: myPage.php');
+			header('Location: MyPage.php');
 		} else {
 			$error['login'] = 'failed';
 		}
@@ -53,6 +28,31 @@ if (!empty($_POST)) {
 		$error['login'] = 'blank';
 	}
 }
+
+// // hash 無し complete_dev
+// if (!empty($_POST)) {
+// 	if ($_POST['mail'] != '' && $_POST['password'] != '') {
+// 		$sql = 'SELECT * FROM users WHERE mail= :mail AND password= :password';
+// 		$prepare = $db->prepare($sql);
+// 		$prepare->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
+// 		$prepare->bindValue(':password', $_POST['password'], PDO::PARAM_STR);
+// 		$prepare->execute();
+// 		$result = $prepare->fetch(PDO::FETCH_ASSOC);
+// 		// fetch   --> 配列を一行だけ取得する。
+// 		// fetchAll--> 連想配列を取得する。
+// 		print_r ($result);
+// 		if (!empty($result['username'])) {
+// 			session_regenerate_id(true);
+// 			$_SESSION['auth'] = 'true';
+// 			$_SESSION['username'] = $result['username'];
+// 			header('Location: MyPage.php');
+// 		} else {
+// 			$error['login'] = 'failed';
+// 		}
+// 	} else {
+// 		$error['login'] = 'blank';
+// 	}
+// }
 
 ?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ if (!empty($_POST)) {
 	<div id="nav_msg">
 	<ul>
 	<?php if ($_SESSION['auth'] == 'true'): ?>
-		<li><a href="myPage.php"><div id="icon_pro"></div></a></li>
+		<li><a href="MyPage.php"><div id="icon_pro"></div></a></li>
 	<?php endif; ?>
 		<li><a href="signIn.php">■ログイン</a></li>
 		<li><a href="#">■本を探す</a></li>
@@ -87,7 +87,7 @@ if (!empty($_POST)) {
 	</div><!-- #nav_msg -->
 </div>
 
-<div id="header_myPage">
+<div id="header_MyPage">
 	<h2>Sign In</h2>
 </div>
 </header>

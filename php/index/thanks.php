@@ -28,7 +28,7 @@
 	</div><!-- #nav_msg -->
 </div>
 
-<div id="header_myPage">
+<div id="header_MyPage">
 	<h2>Sign In</h2>
 </div>
 </header>

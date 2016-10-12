@@ -2,32 +2,75 @@
 session_start();
 require_once __DIR__ . '/../pdo_connect.php';
 
-// if (!isset($_SESSION['join'])) {
-// 	header('Location: signUp.php');
-// 	exit();
-// }
+if (!isset($_SESSION['join'])) {
+	header('Location: signUp.php');
+	exit();
+}
 
 // join の二重配列を処理していく。
-if (!empty($_POST)) {
+if (!empty($_POST['submit'])){
 
-	// 画像がアップされているか確認
-	if (!isset($_SESSION['join']['image'])){
-		$sql = ('INSERT INTO users SET username= :username, mail= :mail,
-			password= :password, picture= :picture, created= :created'
+	$error = 'aaa';
+
+try{
+
+	// password ハッシュ化
+	$password = $_SESSION['join']['password'];
+	$options = array('cost' => 10);
+	$hash = password_hash($password, PASSWORD_DEFAULT, $options);
+
+	// sql 画像がアップされているか確認
+	if (isset($_SESSION['join']['image'])){
+
+		// アップされている場合
+
+				// SET
+		// $sql = ('INSERT INTO users SET username= :username, mail= :mail,
+		// 	password= :password, picture= :picture, created= :created'
+		// );
+
+				// Value
+		$sql = ('INSERT INTO users (username, mail, password, picture, created)
+				VALUES (:username, :mail, :password, :picture, :created)'
 		);
+
+		$prepare = $db->prepare($sql);
+		// 画像を先に渡す
+		$prepare->bindValue(':picture', $_SESSION['join']['picture'], PDO::PARAM_STR);
+
 	} else {
-		$sql = ('INSERT INTO users SET username= :username, mail= :mail,
-			password= :password, created= :created'
-		);
+
+		// アップされていない場合
+
+				// SET
+	// 	$sql = ('INSERT INTO users SET username= :username, mail= :mail,
+	// 		password= :password, created= :created'
+	// 	);
+
+				// VALUE
+
+			$sql = ('INSERT INTO users (username, mail, password, created)
+					VALUES (:username, :mail, :password, :created)'
+			);
+
+		$prepare = $db->prepare($sql);
 	}
-	$prepare = $db->prepare($sql);
+
+		//処理の続き
 	$prepare->bindValue(':username', $_SESSION['join']['username'], PDO::PARAM_STR);
 	$prepare->bindValue(':mail', $_SESSION['join']['mail'], PDO::PARAM_STR);
-	$prepare->bindValue(':password', _password($_SESSION['join']['password']), PDO::PARAM_STR);
-	// 文字列を渡す。PDOException が出るおそれアリ。
-	$prepare->bindValue(':picture', $_SESSION['join']['picture'], PDO::PARAM_STR);
-	$prepare->bindValue(':created', date('Y-m-d H:i:s'), PDO::PARAM_STR	);
+
+	// hash 化した値を渡す
+	$prepare->bindValue(':password', $hash, PDO::PARAM_STR);
+
+	$prepare->bindValue(':created', date('Y-m-d H:i:s'), PDO::PARAM_STR);
 	$prepare->execute();
+	header('Location: thanks.php');
+	exit();
+
+	} catch (PDOException $e) {
+		$error = $e->getMessage();
+	}
 }
 
 
@@ -82,16 +125,21 @@ if (!empty($_POST)) {
 	</div><!-- #nav_msg -->
 </div>
 
-<div id="header_myPage">
+<div id="header_MyPage">
 	<h2>ユーザー登録（確認）</h2>
 </div>
 </header>
-
-<main>
+ <main>
 <div id="form">
 	<h3>ユーザー登録（確認）</h3>
 
-<form action="" type="post">
+<?php
+if (isset($error)) {
+	echo $error;
+}
+?>
+
+<form action="" method="post" enctype="multipart/form-data">
 <table>
 <tbody>
 	<tr>
@@ -104,16 +152,35 @@ if (!empty($_POST)) {
 	</tr>
 	<tr>
 		<th>Password</th>
-		<td>表示されません</td>
+		<td><?php
+			$password = htmlspecialchars($_SESSION['join']['password'], ENT_QUOTES, 'UTF-8');
+			$options = array('cost' => 10);
+			$hash1 = password_hash($password, PASSWORD_DEFAULT, $options);
+			echo $hash1;
+		?></td>
+	</tr>
+	<tr>
+		<th>
+			passwprd_verify
+		</th>
+		<td><?php
+			$auth = password_verify($_SESSION['join']['password'], $hash1);
+			// 1 が返ってくる
+
+			// $auth = password_verify(1, $hash);
+			// null バイトが返ってくる
+
+			echo "<int> $auth";
+		?></td>
 	</tr>
 </tbody>
 </table>
 	<div id="table_btn">
-		<div id="subtn"><input type="submit" value="Sign UP" id="formbtn"></div>
+		<div id="subtn"><input id="formbtn" name="submit" type="submit" value="Sign UP"></div>
 		<div id="bkbtn"><a id="backbtn" href="index.php?action=rewrite">Back</a></div>
 	</div>
 
-</form><!-- #signin -->
+</form>
 </div><!-- #form -->
 </main>
 

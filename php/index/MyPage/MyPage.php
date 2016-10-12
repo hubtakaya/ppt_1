@@ -1,18 +1,20 @@
 <?php
-session_start ();
-$_SESSION = array();
-session_destroy();
-// cookie に関する記述を追加。
-header('Location: topPage.php');
+session_start();
+
+// サインインチェック
+if (!($_SESSION['auth']) == 'true') {
+	// サインインしていない
+	header('Location: signIn.php');
+	exit();
+}
 
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-Edge">
-	<title>サインイン</title>
+	<title>マイページ</title>
 	<meta name="Keywords" content="本,おすすめ,推薦図書">
 	<meta name="Description" content="読んだことのある本についてユーザーの
 	皆さんが自由に感想を投稿していきます。
@@ -21,7 +23,7 @@ header('Location: topPage.php');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- stylesheet -->
-	<link rel="stylesheet" href="css/base.css" media="all">
+	<link rel="stylesheet" href="../css/MyPage.css" media="all">
 </head>
 
 <body>
@@ -32,7 +34,7 @@ header('Location: topPage.php');
 	<?php if ($_SESSION['auth'] == 'true'): ?>
 		<li><a href="MyPage.php"><div id="icon_pro"></div></a></li>
 	<?php endif; ?>
-		<li><a href="signIn.php">■ログイン</a></li>
+		<li><a href="signOut.php">■ログアウトする</a></li>
 		<li><a href="#">■本を探す</a></li>
 		<li><a href="topPage.php">■ホームに戻る</a></li>
 	</ul>
@@ -40,42 +42,73 @@ header('Location: topPage.php');
 </div>
 
 <div id="header_MyPage">
-	<h2>Sign In</h2>
+	<h2>My Page</h2>
 </div>
 </header>
 
+<article>
+	<div id="profile">
+		<img src="">
+		<div id="name">
+		<?php
+		echo "<p>" . $_SESSION['username'] . " さんのページ</p>";
+		?>
+		</div>
+	</div>
+	<div id="category">
+		<ul>
+			<li><a href="#">>> プロフィール変更</a></li>
+			<li><a href="#">>> 投稿した本を見る</a></li>
+			<li><a href="#">>> 本を投稿する</a></li>
+			<li><a href="#">>> プロフィール変更</a></li>
+		</ul>
+	</div>
+</article>
+
+<div id="dammy"></div>
+
 <main>
 <div id="form">
-	<h3>ID・パスワードの入力</h3>
-	<p>ログアウトしました。</p>
-<?php
-print_r ($_SESSION);
-?>
+	<h3>マイページ</h3>
 
-<form action="" method="post">
+<form action="" type="post">
 <table>
 <tbody>
 	<tr>
+		<th>氏</th>
+		<td><input name="ID" type="text"></td>
+	</tr>
+	<tr>
+	<tr>
+		<th>名</th>
+		<td><input name="ID" type="text"></td>
+	</tr>
+	<tr>
+	<tr>
+		<th>User Name</th>
+		<td><input name="ID" type="text"></td>
+	</tr>
+	<tr>
+	<tr>
 		<th>User ID</th>
-		<td><input name="mail" type="text"></td>
+		<td><input name="ID" type="text"></td>
 	</tr>
 	<tr>
 		<th>Password</th>
 		<td><input name="password" type="password"></td>
 	</tr>
+	<tr>
+		<th>New Password</th>
+		<td><input name="password" type="password"></td>
+	</tr>
+	<tr>
+		<th>New Password （確認）</th>
+		<td><input name="password" type="password"></td>
+	</tr>
 </tbody>
 </table>
-	<p><input type="submit" value="Sign In" id="formbtn"></p>
+	<p><input type="submit" value="Save" id="formbtn"></p>
 </form><!-- #signin -->
-
-<?php if ($error['login'] == 'blank'): ?>
-	<p class="error">* メールアドレスとパスワードを入力してください</p>
-<?php endif; ?>
-
-<?php if ($error['login'] == 'failed'): ?>
-	<p class="error">* メールアドレスかパスワードが間違っています。</p>
-<?php endif; ?>
-
 </div><!-- #form -->
 </main>
 
