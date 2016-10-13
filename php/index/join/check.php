@@ -23,6 +23,8 @@ try{
 	if (isset($_SESSION['join']['image'])){
 
 		// アップされている場合
+		// tmp_file 画像を出力する。
+		// tmp_file 画像をmember にアップロードする
 
 				// SET
 		// $sql = ('INSERT INTO users SET username= :username, mail= :mail,

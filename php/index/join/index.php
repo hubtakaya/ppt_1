@@ -42,7 +42,7 @@ if (!empty($_POST)) {
 		$_SESSION['join'] = $_POST;
 
 		if (!empty($_FILES)) {
-			// 画像をアップロードする
+			// 画像はアップロードしない。
 			$image = date('YmdHis') . $_FILES['image']['name'];
 			move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
 			$_SESSION['join']['image'] = $image;
